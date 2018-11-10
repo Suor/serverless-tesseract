@@ -1,23 +1,23 @@
 FROM lambci/lambda:build-python3.6
 # There are ARGs below:
-#     - LEPTONICA_VERSION
-#     - TESSERACT_VERSION
-#     - TESSDATA
-#     - TESSDATA_URL
+#     - version
+#     - leptonica_version
+#     - tessdata
+#     - tessdata_url
 # Moved them as low as possible for better caching
 
 # Build leptonica
 RUN yum install clang libpng-devel libtiff-devel zlib-devel libwebp-devel libjpeg-turbo-devel -y
-ARG LEPTONICA_VERSION=1.76.0
-RUN curl http://www.leptonica.org/source/leptonica-${LEPTONICA_VERSION}.tar.gz -o leptonica.tar.gz
+ARG leptonica_version=1.76.0
+RUN curl http://www.leptonica.org/source/leptonica-${leptonica_version}.tar.gz -o leptonica.tar.gz
 RUN tar -xzvf leptonica.tar.gz
-RUN cd leptonica-${LEPTONICA_VERSION} && ./configure && make && make install
+RUN cd leptonica-${leptonica_version} && ./configure && make && make install
 
 
 # Build tesseract
 RUN yum install git-core libtool pkgconfig -y
-ARG TESSERACT_VERSION=4.0.0
-RUN git clone -b $TESSERACT_VERSION https://github.com/tesseract-ocr/tesseract.git tesseract-ocr
+ARG version=4.0.0
+RUN git clone -b $version https://github.com/tesseract-ocr/tesseract.git tesseract-ocr
 RUN (export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig; \
      cd tesseract-ocr && ./autogen.sh && ./configure && make && make install)
 
@@ -39,7 +39,7 @@ RUN mkdir -p tesseract-standalone/tessdata/configs       \
 
 
 # Add language data
-ARG TESSDATA="osd eng"
-ARG TESSDATA_URL="https://github.com/tesseract-ocr/tessdata/raw/master/"
-RUN for pack in $TESSDATA; do curl -L "$TESSDATA_URL$pack.traineddata" \
+ARG tessdata="osd eng"
+ARG tessdata_url="https://github.com/tesseract-ocr/tessdata/raw/master/"
+RUN for pack in $tessdata; do curl -L "$tessdata_url$pack.traineddata" \
                                    -o "tesseract-standalone/tessdata/$pack.traineddata"; done

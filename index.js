@@ -1,24 +1,22 @@
 "use strict";
 
-const dockart = require('serverless-docker-artifacts');
-// const child_process = require("child_process");
-// // const path = require("path");
+const path = require("path");
+
 const BbPromise = require("bluebird");
-// const _ = require("lodash");
 const fse = require("fs-extra");
+const dockart = require('serverless-docker-artifacts');
 
 BbPromise.promisifyAll(fse);
 
 
-// function validateArtifact(artifact) {
-//   const art = Object.assign({path: '.', dockerfile: 'Dockerfile', args: {}}, artifact);
-//   return art;
-// }
+const ARGS = {version: true, leptonica_version: true, tessdata: true, tessdata_url: true};
 
 
 class ServerlessTesseract {
-  // Private implementation
   create() {
+    this.serverless.cli.log('Adding tesseract artifacts...')
+
+    // Overwrite error message
     if (fse.existsSync('tesseract-standalone'))
       throw Error(`The target path "tesseract-standalone" is occupied. ` +
                   `Run "sls tesseract clean" to remove all artifacts.`);
@@ -26,7 +24,7 @@ class ServerlessTesseract {
     dockart.createArtifact({
       path: __dirname,
       copy: 'tesseract-standalone',
-      args: {},
+      args: this.args,
     });
 
     fse.copySync(path.resolve(__dirname, "tesseract"), "tesseract");
@@ -41,10 +39,13 @@ class ServerlessTesseract {
     this.serverless = serverless;
     this.options = options;
 
-    // let custom = this.serverless.config.serverless.service.custom;
-    // this.artifacts = custom ?
-    //   custom.dockerArtifacts || (custom.dockerArtifact ? [custom.dockerArtifact] : [])
-    //   : [];
+    let custom = this.serverless.config.serverless.service.custom;
+    this.args = custom && custom.tesseract || {};
+    Object.keys(this.args).forEach(arg => {
+      if (!ARGS[arg])
+        throw Error(`Unknown tesseract config var "${arg}". ` +
+                    `Available arguments are: version, leptonica_version, tessdata, tessdata_url.`);
+    })
 
     this.commands = {
       tesseract: {
