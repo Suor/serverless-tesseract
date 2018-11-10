@@ -1,0 +1,39 @@
+{
+  "name": "serverless-tesseract",
+  "version": "0.1.0",
+  "author": {
+    "name": "Alexander Schepanovski",
+    "email": "suor.web@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/Suor/serverless-tesseract/issues"
+  },
+  "dependencies": {
+    "serverless-docker-artifacts": "^0.1.1",
+    "bluebird": "^3.5.2",
+    "fs-extra": "^7.0.0"
+  },
+  "description": "Serverless Tesseract plugin",
+  "engines": {
+    "node": ">=6.11"
+  },
+  "files": [
+    "index.js",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
+  "homepage": "https://github.com/Suor/serverless-tesseract",
+  "keywords": [
+    "serverless",
+    "tesseract",
+    "tesseract-ocr",
+    "serverless framework plugin"
+  ],
+  "license": "BSD-2-Clause",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Suor/serverless-tesseract.git"
+  }
+}

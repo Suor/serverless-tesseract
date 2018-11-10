@@ -1,0 +1,4 @@
+#!/bin/bash
+
+TESS_PATH=`dirname $BASH_SOURCE`'/tesseract-standalone'
+LD_LIBRARY_PATH=$TESS_PATH/lib TESSDATA_PREFIX=$TESS_PATH/tessdata $TESS_PATH/tesseract "$@"
