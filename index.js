@@ -27,7 +27,9 @@ class ServerlessTesseract {
       path: __dirname,
       copy: 'tesseract-standalone',
       args: {},
-    })
+    });
+
+    fse.copySync(path.resolve(__dirname, "tesseract"), "tesseract");
   }
 
   clean() {
