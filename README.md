@@ -1,6 +1,6 @@
 # Serverless Tesseract plugin
 
-A Serverless plugin to easily add Tesseract OCR engine to your deployment. Build tesseract for you in a docker container.
+A Serverless plugin to easily add Tesseract OCR engine to your deployment. Builds tesseract for you in a docker container.
 
 
 ## Installation and Configuration
@@ -16,11 +16,12 @@ plugins:
   - serverless-tesseract
 
 custom:
-  # Everything is optional below, defaults are shown in the example
+  # This section is optional, as well as all of its keys.
+  # Defaults are shown in the example.
   tesseract:
     version: 4.0.0
     leptonica_version: 1.76.0
-    tessdata: "osd eng"
+    tessdata: "osd eng" # Add any other languages rus, deu, ...
     tessdata_url: https://github.com/tesseract-ocr/tessdata/raw/master/
     # Other obvious choices are:
     #   https://github.com/tesseract-ocr/tessdata_fast/raw/master/
@@ -48,22 +49,4 @@ This plugin defines commands to manufacture and clean artifacts without packagin
 ```bash
 sls tesseract create
 sls tesseract clean
-```
-
-
-## API for your plugins
-
-```js
-const dockart = require('serverless-docker-artifacts');
-
-// Create an artifact
-dockart.createArtifact({
-    path: 'path/to/',
-    dockerfile: 'Dockerfile',
-    args: {...},
-    copy: 'some-dir',
-})
-
-// Remove containers and images
-dockart.cleanDocker()
 ```
