@@ -37,7 +37,8 @@ Then run `sls deploy` or `sls package` as usual.
 This plugins adds `tesseract-standalone` directory to your build with its executable, libs and tessdata and convenience script `tesseract` to the root of your project. You may call it directly or add it to path:
 
 ```python
-LAMBDA_TASK_ROOT = os.environ.get('LAMBDA_TASK_ROOT', os.path.dirname(__file__))
+LAMBDA_TASK_ROOT = os.environ.get('LAMBDA_TASK_ROOT',
+                                  os.path.dirname(__file__))
 os.environ["PATH"] = LAMBDA_TASK_ROOT + os.pathsep + os.environ['PATH']
 ```
 
