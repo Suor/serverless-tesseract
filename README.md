@@ -43,7 +43,7 @@ os.environ["PATH"] = LAMBDA_TASK_ROOT + os.pathsep + os.environ['PATH']
 ```
 
 
-## Extra commands
+## Commands
 
 This plugin defines commands to manufacture and clean artifacts without packaging them:
 
@@ -51,3 +51,11 @@ This plugin defines commands to manufacture and clean artifacts without packagin
 sls tesseract create
 sls tesseract clean
 ```
+
+Note that this plugin uses (Docker Artifacts)[https://github.com/Suor/serverless-docker-artifacts] plugin to function, so you can use that to clean up docker containers and images used to build tesseract:
+
+```bash
+sls dockart clean-docker
+```
+
+You need to add `serverless-docker-artifacts` to your plugins first though.
